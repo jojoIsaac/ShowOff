@@ -11,12 +11,9 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-
 import android.support.v7.view.menu.MenuBuilder;
-
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,14 +22,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.joanzapata.iconify.IconDrawable;
@@ -51,10 +46,10 @@ import applications.apps.celsoft.com.showoff.FeedDetailActivity;
 import applications.apps.celsoft.com.showoff.R;
 import applications.apps.celsoft.com.showoff.ShowOff_startPage;
 import applications.apps.celsoft.com.showoff.Utilities.AppBackBoneClass;
-import applications.apps.celsoft.com.showoff.Views.ApplicationFragments;
 import applications.apps.celsoft.com.showoff.Utilities.models.VideoSource;
 import applications.apps.celsoft.com.showoff.Utilities.table_interfaces.showoffItems;
 import applications.apps.celsoft.com.showoff.VideoPlayer;
+import applications.apps.celsoft.com.showoff.Views.ApplicationFragments;
 import im.ene.lab.toro.ToroAdapter;
 import im.ene.lab.toro.ToroViewHolder;
 import im.ene.lab.toro.widget.ToroVideoView;
@@ -290,6 +285,37 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
                 if(mediatype.equalsIgnoreCase("Image") || mediatype.equalsIgnoreCase("img"))
                 {
                     issue_image.setVisibility(View.VISIBLE);
+                    issue_image.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+
+                            String menu[]= {"Download"};
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setItems(menu, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                   // Intent intent = new Intent(context, UserProfileSettingPage.class);
+                                    switch (which)
+                                    {
+                                        case 0:
+
+                                           // intent.putExtra("PURPOSE","changeDp");
+
+                                            break;
+                                        case 1:
+                                            //intent.putExtra("PURPOSE","changeBanner");
+                                            break;
+
+
+                                    }
+                                    //startActivity(intent);
+                                }
+                            })
+                                    .show();
+
+                            return true;
+                        }
+                    });
                     videoplayerLayout.setVisibility(View.GONE);
                     //Then set the image url of the image attached
                     if (!TextUtils.isEmpty(issue.getFilename())
