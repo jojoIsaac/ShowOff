@@ -1,0 +1,58 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:card="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:layout_width="100dp"
+        android:orientation="horizontal"
+        android:id="@+id/layout_newStory"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_box"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Stories"
+            android:textAlignment="center"
+            android:textColor="#FFF"
+            android:id="@+id/txt_new_stories" />
+    </LinearLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+    
+    android:id="@+id/swipe_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<android.support.v7.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rv"
+    />
+
+</android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_menu_send"
+        app:fab_elevationCompat="4dp"/>
+
+</FrameLayout>

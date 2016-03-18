@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_sports"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Sports" />
+        <item
+            android:id="@+id/nav_music"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Music" />
+        <item
+            android:id="@+id/nav_dance"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Dance" />
+        <item
+        android:id="@+id/nav_vArts"
+        android:icon="@drawable/ic_menu_manage"
+        android:title="Visual Arts" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Gamer" />
+    </group>
+
+    <group android:checkableBehavior="single">
+
+            <item
+                android:id="@+id/nav_user"
+                android:icon="@drawable/ic_menu_share"
+                android:title="My Profile" />
+
+
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Settings" />
+
+    </group>
+
+</menu>

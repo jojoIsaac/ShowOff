@@ -1,0 +1,96 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/borders"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFF"
+        android:orientation="horizontal"
+        android:padding="16dp" >
+
+        <ImageView
+            android:id="@+id/profileimage"
+            android:layout_width="@dimen/feed_item_profile_pics"
+            android:layout_height="@dimen/feed_item_profile_pics"
+            android:layout_marginRight="8dp"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:orientation="vertical"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="15sp"
+
+                android:text="userName here" />
+
+
+
+                <TextView
+                    android:id="@+id/txt_no_follows"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:gravity="center_horizontal"
+                    android:text="Like"
+                    android:textColor="#2980b9"
+                    android:textStyle="bold"
+                    android:textSize="13sp"/>
+
+
+
+
+            <TextView
+                android:id="@+id/txt_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comment Content"
+               />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/img_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+
+                android:src="@android:drawable/ic_dialog_email"/>
+
+
+
+
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/img_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginLeft="8dp"
+
+
+            android:src="@android:drawable/ic_dialog_email"/>
+    </LinearLayout>
+
+</LinearLayout>

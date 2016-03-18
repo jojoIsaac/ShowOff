@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF"
+    android:orientation="vertical" >
+    <!-- The header/ Title  -->
+
+
+
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/ColorPrimary"
+        android:gravity="center_horizontal" >
+
+        <ImageButton
+            android:id="@+id/ibtnCancel"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView1"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="16dp"
+            android:background="@null"
+            android:gravity="left"
+            android:src="@android:drawable/ic_delete" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="85dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:text="Post Issue"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#FFF"
+            android:textSize="20sp" />
+
+        <ImageButton
+              android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView1"
+            android:layout_alignRight="@+id/textView1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="4dp"
+            android:id="@+id/imbtnsendPost"
+            android:background="@null"
+            android:src="@android:drawable/ic_menu_send"
+            android:textColor="#FFF"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+    
+    
+    
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/edtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:ems="10"
+            android:hint="Title (Optional)" />
+
+        <EditText
+            android:id="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.34"
+            android:background="@drawable/text_back"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="Details ..."
+            android:scrollbars="vertical" >
+
+            <requestFocus />
+        </EditText>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" >
+ <TextView
+        android:id="@+id/txtImagestatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Image Status"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+         <LinearLayout
+         
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+           
+             android:orientation="horizontal"
+            
+              >
+
+              <ImageButton
+                  android:id="@+id/btn_image_add"
+                  style="?android:attr/buttonStyleSmall"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  
+                  android:background="@null"
+                  android:text="SHARE" />
+
+             <ImageButton
+                 android:id="@+id/btn_video_add"
+                 style="?android:attr/buttonStyleSmall"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+          
+                 android:layout_marginRight="4dp"
+                 android:background="@null"
+                 android:text="LEARN MORE"
+                 android:textColor="@color/ColorPrimary" />
+             
+         </LinearLayout>
+    </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
