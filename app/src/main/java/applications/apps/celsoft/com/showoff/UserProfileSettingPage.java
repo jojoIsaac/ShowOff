@@ -94,7 +94,7 @@ public class UserProfileSettingPage extends AppCompatActivity {
 
             if(purpose.equalsIgnoreCase("changeDp") && specific)
             fragment = new SetProfilePicture();
-            else if(purpose.equalsIgnoreCase("changeCover") && specific)
+            else if(purpose.equalsIgnoreCase("changeBanner") && specific)
                 fragment = new SetBackground();
             else
             {
@@ -109,7 +109,6 @@ public class UserProfileSettingPage extends AppCompatActivity {
     }
 
     static final int REQUEST_IMAGE_CAPTURE = 1, REQUEST_VIDEO_CHOOSE = 2, REQUEST_IMAGE_CHOOSE = 3, REQUEST_VIDEO_CAPTURE = 4;
-    ;
 
     public static void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
