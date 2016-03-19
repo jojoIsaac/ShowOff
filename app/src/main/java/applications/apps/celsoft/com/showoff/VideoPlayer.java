@@ -140,15 +140,6 @@ public class VideoPlayer extends AppCompatActivity implements MediaPlayer.OnComp
         loadCategories();
         mVideoView = (ToroVideoView)findViewById(R.id.videoplayer);
         // Set up the user interaction to manually show or hide the system UI.
-       /*
-        mVideoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });
-*/
-
 
 
 

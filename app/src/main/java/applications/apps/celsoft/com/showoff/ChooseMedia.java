@@ -68,6 +68,9 @@ public class ChooseMedia extends AppCompatActivity {
     static Bitmap _bitmap;
     static Spinner cat_spinner;
     String imageURL="";
+    private ProgressDialog pdialog;
+    private File Imagefile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,15 +100,21 @@ public class ChooseMedia extends AppCompatActivity {
         }
         else if (getIntent().hasExtra("URL"))
         {
-            File file= new File(getIntent().getStringExtra("URL"));
-            if(file!=null)
+            Imagefile= new File(getIntent().getStringExtra("URL"));
+            if(Imagefile!=null)
             {
                 setContentView(R.layout.activity_choose_media);
                 fileType= "img";
-                _bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                imgdata= (ImageView) findViewById(R.id.imgdata);
+                try {
+                    _bitmap = BitmapFactory.decodeFile(Imagefile.getAbsolutePath());
+                    imgdata = (ImageView) findViewById(R.id.imgdata);
 
-                imgdata.setImageBitmap(_bitmap);
+                    imgdata.setImageBitmap(_bitmap);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
 
             }
         }
@@ -237,9 +246,59 @@ static ArrayList<String> categories,categoryIDs ;
 
 
 
+    private void saveImageOnServer(final Bitmap images,final String fileType,final String fullpath,final String content) {
+       // String url= AppBackBoneClass.parentUrL+ AppBackBoneClass.videoUploader;
+
+        if(Imagefile.exists() && Imagefile.isFile()) {
+            File upload = new File(fullpath);
+            Integer val = cat_spinner.getSelectedItemPosition();
+            String category = categoryIDs.get(val);
+            final String finalCategory = category;
+            pdialog = new ProgressDialog(AppBackBoneClass.context);
+            pdialog.setMessage("Please wait. Time to showOff...");
+            pdialog.setCancelable(false);
+            pdialog.show();
+
+            String userID = AppBackBoneClass.getUserId();
+            String url = AppBackBoneClass.parentUrL + AppBackBoneClass.uploadUrl;
+
+            Ion.with(this)
+                    .load(url)
+                    .setMultipartParameter("name", AppBackBoneClass.generateRandomString(userID + fileType) + ".jpg")
+                    .setMultipartParameter("UN", AppBackBoneClass.getUserDetails().get(1))
+                    .setMultipartParameter("userID", AppBackBoneClass.getUserId())
+                    .setMultipartParameter("data_cate", finalCategory)
+                    .setMultipartParameter("userpost", content)
+                    .setMultipartParameter("data_type", fileType)
+                    .setMultipartFile("data", Imagefile)
+
+                    .asString()
+                    .setCallback(new FutureCallback<String>() {
+                        @Override
+                        public void onCompleted(Exception e, String result) {
+                            if (e != null) {
+                                Toast.makeText(ChooseMedia.this, "Error Uploading", Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                                return;
+                            } else {
+                                Log.e("ERRORUPLOAD", result);
+                                pdialog.dismiss();
+                                ApplicationFragments.layout_newStory.setVisibility(View.VISIBLE);
+                                Toast.makeText(ChooseMedia.this, result, Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        }
+                    });
+
+        }
+    }
 
 
-    private static void saveImageOnserver(final Bitmap images,final String fileType,final String fullpath,final String content) {
+
+
+
+
+    private static void saveImageOnservers(final Bitmap images,final String fileType,final String fullpath,final String content) {
         // TODO Auto-generated method stub
        // final File file= new File(AppBackBoneClass.files_temp.getAbsolutePath() + "/" + tempFilename);
         String category="";
@@ -271,14 +330,14 @@ static ArrayList<String> categories,categoryIDs ;
                 // TODO Auto-generated method stub
                 pdialog.dismiss();
                 filePath= Environment.getExternalStorageDirectory().getPath();
-                Toast.makeText(AppBackBoneClass.context, result, Toast.LENGTH_LONG).show();
+
                 if(result.trim().contains("Data Saved"))
                 {
                     //if(file.exists() && file.isFile())
                    // {
                     //    file.delete();
                     //}
-
+                    Toast.makeText(AppBackBoneClass.context, "Saved", Toast.LENGTH_LONG).show();
                     ApplicationFragments.layout_newStory.setVisibility(View.VISIBLE);
                             ((Activity) AppBackBoneClass.context).finish();
                 }
@@ -380,7 +439,8 @@ static ArrayList<String> categories,categoryIDs ;
                 .setPositiveButton("BRAG NOW!", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        saveImageOnserver(_bitmap, fileType, "", edt_brag.getText().toString());
+                        if( Imagefile.exists() && Imagefile.isFile())
+                          saveImageOnServer(_bitmap, fileType,  Imagefile.getAbsolutePath(), edt_brag.getText().toString());
 
                     }
                 })

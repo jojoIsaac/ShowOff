@@ -547,6 +547,7 @@ public void onScrolledToEnd() {
     @Override public void onResume() {
 		super.onResume();
         AppBackBoneClass.currentAppPage=0;
+		AppBackBoneClass.context = getActivity();
         Toro.register(recyclerView);
 
 

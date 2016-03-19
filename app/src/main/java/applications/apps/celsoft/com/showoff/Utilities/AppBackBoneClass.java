@@ -1,7 +1,10 @@
 package applications.apps.celsoft.com.showoff.Utilities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -15,7 +18,9 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -182,15 +187,22 @@ public class AppBackBoneClass extends ApplicationContants {
     public static void savetempFile(String filePath,ByteArrayOutputStream data,String fileType)
     {
         try {
-            FileOutputStream tempFile = new FileOutputStream(filePath);
-            tempFile.write(data.toByteArray());
-            tempFile.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            File files = new File(filePath);
+            if (!files.exists()) {
+                FileOutputStream tempFile = new FileOutputStream(filePath);
+                tempFile.write(data.toByteArray());
+                tempFile.close();
+
+            }
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+
     }
+
+
     //Functions to handle some dates issues
     public static String getDate() {
         SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyy");
@@ -503,6 +515,15 @@ public class AppBackBoneClass extends ApplicationContants {
 
     }
 
+    public static void shareShowOffImages(Bitmap bitmap ,String filePath)
+    {
+
+        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/jpg");
+        File photoFile = new File(filePath);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile));
+        context.startActivity(Intent.createChooser(shareIntent, "Share image using"));
+    }
 
     public static class EmailFormatValidator {
 
@@ -558,6 +579,7 @@ public class AppBackBoneClass extends ApplicationContants {
             return "circle";
         }
     }
+
     public static void loadUserImage(final ImageView imageView,String url,Context context,Drawable onErrorImage)
     {
       Picasso.with(context)
@@ -766,7 +788,8 @@ public class AppBackBoneClass extends ApplicationContants {
         }
         return obj;
     }
- public static class ConvolutionMatrix
+
+    public static class ConvolutionMatrix
  {
      public static final int SIZE = 3;
 

@@ -1,10 +1,14 @@
 package applications.apps.celsoft.com.showoff.Utilities.Adapters;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
@@ -34,12 +38,16 @@ import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.List;
 
 import applications.apps.celsoft.com.showoff.FeedDetailActivity;
@@ -223,7 +231,7 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
 
         }
 
-
+        Bitmap databitmap = null;
 
         void handleContentLikeChanged(final showoffItems issue)
         {
@@ -284,6 +292,8 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
 
                 if(mediatype.equalsIgnoreCase("Image") || mediatype.equalsIgnoreCase("img"))
                 {
+                    final String filePath = AppBackBoneClass.file_media_videos.getAbsolutePath()
+                            + issue.getFilename();
                     issue_image.setVisibility(View.VISIBLE);
                     issue_image.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
@@ -298,8 +308,17 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
                                     switch (which)
                                     {
                                         case 0:
+       if( databitmap !=null)
+       {
+           ByteArrayOutputStream bout = new ByteArrayOutputStream();
 
-                                           // intent.putExtra("PURPOSE","changeDp");
+
+           databitmap.compress(Bitmap.CompressFormat.JPEG,90,bout);
+           AppBackBoneClass.savetempFile(filePath, bout, "IMG");
+           Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
+       }
+
+
 
                                             break;
                                         case 1:
@@ -321,26 +340,34 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
                     if (!TextUtils.isEmpty(issue.getFilename())
                             && !issue.getFilename().equalsIgnoreCase("null")) {
 
-                        Drawable tempdrawable = issue_image.getDrawable();
-                        if (tempdrawable!=null)
+                        //Drawable tempdrawable = issue_image.getDrawable();
+                        if (!issue.getFilename().equalsIgnoreCase("null"))
                         {
                             Picasso.with(context)
                                     .load(AppBackBoneClass.parentUrL+AppBackBoneClass.issueAttachmentFolder
                                             + issue.getFilename()).resize(250, 250)
                                     .centerCrop().error(R.drawable.navigationbanner)
-                                    .placeholder(tempdrawable)
+
                                     .memoryPolicy(MemoryPolicy.NO_CACHE)
-                                    .into(issue_image);
+                                    .into(issue_image, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+
+
+                                            databitmap = ((BitmapDrawable)issue_image.getDrawable()).getBitmap();
+
+
+                                        }
+
+                                        @Override
+                                        public void onError() {
+
+                                        }
+                                    });
                         }
                         else
                         {
-                            Picasso.with(context)
-                                    .load(AppBackBoneClass.parentUrL+AppBackBoneClass.issueAttachmentFolder
-                                            + issue.getFilename()).resize(250, 250)
-                                    .centerCrop().error(R.drawable.navigationbanner)
-                                    .placeholder(R.drawable.navigationbanner)
-                                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-                                    .into(issue_image);
+                           issue_image.setImageDrawable(null);
                         }
 
                         issue_image.setVisibility(View.VISIBLE);
@@ -562,22 +589,6 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
                 loadDataContent(mItem);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             }
         }
 
@@ -784,7 +795,20 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
                                     break;
                                 case R.id.action_share:
                                     //Bookmarking issue
-                                    AppBackBoneClass.handlePostShare(issues, context);
+                                    if(databitmap!=null)
+                                    {
+                                        final String filePath = AppBackBoneClass.file_media_videos.getAbsolutePath()
+                                                + issues.getFilename();
+                                        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+
+
+                                        databitmap.compress(Bitmap.CompressFormat.JPEG,90,bout);
+                                        AppBackBoneClass.savetempFile(filePath, bout, "IMG");
+
+                                        AppBackBoneClass.shareShowOffImages(databitmap, filePath);
+                                    }
+                                    else
+                                         AppBackBoneClass.handlePostShare(issues, context);
                                     break;
                                 case 3:
                                     AlertDialog.Builder builder= new AlertDialog.Builder(context);
