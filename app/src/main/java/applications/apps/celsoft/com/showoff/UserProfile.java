@@ -6,12 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +37,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.WeakHashMap;
 
 import applications.apps.celsoft.com.showoff.Utilities.Adapters.IssuesAdapter;
 import applications.apps.celsoft.com.showoff.Utilities.AppBackBoneClass;
@@ -92,7 +90,7 @@ public class UserProfile extends AppCompatActivity implements SwipeRefreshLayout
     }
 
     protected ActionBar getActionBars() {
-        return ((AppCompatActivity)this).getSupportActionBar();
+        return this.getSupportActionBar();
     }
 
     @Override
@@ -634,6 +632,9 @@ btnconnect.setTextColor(Color.WHITE);
 
     }
 
+
+
+
     protected void LoadMoreData() {
         Ion.with(this)
                 .load(AppBackBoneClass.parentUrL + AppBackBoneClass.feedUrl)
@@ -670,7 +671,9 @@ btnconnect.setTextColor(Color.WHITE);
 
     @Override public void onResume() {
         super.onResume();
+        onRefresh();
         Toro.register(recyclerView);
+
     }
 
 

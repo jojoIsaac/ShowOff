@@ -1,18 +1,9 @@
 package applications.apps.celsoft.com.showoff.Views;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,30 +24,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.clans.fab.FloatingActionButton;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import applications.apps.celsoft.com.showoff.ChooseMedia;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import applications.apps.celsoft.com.showoff.PostDataToserver;
 import applications.apps.celsoft.com.showoff.R;
 import applications.apps.celsoft.com.showoff.ShowOff_startPage;
 import applications.apps.celsoft.com.showoff.Utilities.Adapters.IssuesAdapter;
 import applications.apps.celsoft.com.showoff.Utilities.AppBackBoneClass;
-import applications.apps.celsoft.com.showoff.Utilities.table_interfaces.AppUser;
 import applications.apps.celsoft.com.showoff.Utilities.table_interfaces.showoffItems;
-import applications.apps.celsoft.com.showoff.VideoPlayer;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import im.ene.lab.toro.Toro;
@@ -143,10 +128,10 @@ public abstract class ApplicationFragments extends Fragment implements OnRefresh
 		return rootView;
 	}
 
-    public static final int REQUEST_IMAGE_CAPTURE = 1,REQUEST_VIDEO_CHOOSE = 2,REQUEST_IMAGE_CHOOSE = 3,REQUEST_VIDEO_CAPTURE = 4;;
+    public static final int REQUEST_IMAGE_CAPTURE = 1,REQUEST_VIDEO_CHOOSE = 2,REQUEST_IMAGE_CHOOSE = 3,REQUEST_VIDEO_CAPTURE = 4;
 
 
-    static ImageView icon;
+	static ImageView icon;
 	
 	/*
 	
@@ -351,40 +336,40 @@ public abstract class ApplicationFragments extends Fragment implements OnRefresh
 				.setBodyParameter("reason", "Load showoffs")
 				.setBodyParameter("type", currentIssues+"")
 				.setBodyParameter("UID", AppBackBoneClass.getUserId())
-				.setBodyParameter("startPage", "1")
+				.setBodyParameter("startPage","1")
 				.asString()
 
                 .setCallback(new FutureCallback<String>() {
-					@Override
-					public void onCompleted(Exception e, String result) {
-						// do stuff with the result or error
-						if (e == null) {
-							swipeLayout.setRefreshing(false);
-							//Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onCompleted(Exception e, String result) {
+                        // do stuff with the result or error
+                        if (e == null) {
+                            swipeLayout.setRefreshing(false);
+                            //Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
 
-							issuesList = new ArrayList<showoffItems>();
-							adapter = new IssuesAdapter(issuesList, currentIssues, AppBackBoneClass.context, (AppCompatActivity) AppBackBoneClass.context);
+                            issuesList = new ArrayList<showoffItems>();
+                            adapter = new IssuesAdapter(issuesList, currentIssues, AppBackBoneClass.context, (AppCompatActivity) AppBackBoneClass.context);
 
-							recyclerView.setAdapter(adapter);
-							processIssuesJson(result);
-							Log.d("red", result);
-
-
-							// Toast.makeText(getActivity(),result,Toast.LENGTH_LONG).show();
-						} else {
-							try {
-								Toast.makeText(AppBackBoneClass.context, e.getMessage(), Toast.LENGTH_LONG).show();
-
-							} catch (Exception es) {
-
-							}
-
-							//e.printStackTrace();
-						}
-					}
+                            recyclerView.setAdapter(adapter);
+                            processIssuesJson(result);
+                            Log.d("red", result);
 
 
-				});
+                            // Toast.makeText(getActivity(),result,Toast.LENGTH_LONG).show();
+                        } else {
+                            try {
+                                Toast.makeText(AppBackBoneClass.context, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                            } catch (Exception es) {
+
+                            }
+
+                            //e.printStackTrace();
+                        }
+                    }
+
+
+                });
 	
 	}
 
@@ -415,38 +400,28 @@ public abstract class ApplicationFragments extends Fragment implements OnRefresh
 						    //String sender= feedObj.optString("sender");
 						    showoffItems issues= showoffItems.getItem(feedObj.toString());
 
-						    if(issues!=null && issuesList.indexOf(issues)<0 )
+						    if(issues!=null && issuesList.indexOf(issues)<0)
 						    {
 
 
 								if(issues.getFiletype().equalsIgnoreCase("Image") && issues.getFiletype().equalsIgnoreCase("Img")&&
-                                       issues.getFiletype().equalsIgnoreCase("Text")  ) {
-									issuesList.add(issues);
-								}
+                                       issues.getFiletype().equalsIgnoreCase("Text") )
+
+						    issuesList.add(issues);
                                 else
                                 {
-                                    if(!TextUtils.isEmpty(issues.getFilename()) ) {
-										issuesList.add(issues);
-
-									}
+                                    if(!TextUtils.isEmpty(issues.getFilename()))
+                                        issuesList.add(issues);
                                 }
 							}
-                            else
-                            {
-                                Log.e("KLOP","NULLLLLLLL");
-                            }
 						}
 						
 					}
 					startAT = issuesList.size() + 1;
 					adapter.notifyDataSetChanged();
 				}
-                else
-                {
-                    Log.e("POL",90000000+"");
-                }
-               // Toast.makeText(getActivity(), adapter.issuesList.size()+"", Toast.LENGTH_SHORT).show();
-            }catch(Exception e)
+				
+			}catch(Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -507,7 +482,7 @@ public void onScrolledToEnd() {
                     processIssuesJson(result);
                     Log.d("red", result);
                 } else {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Try again", Toast.LENGTH_LONG).show();
                     //e.printStackTrace();
                 }
             }

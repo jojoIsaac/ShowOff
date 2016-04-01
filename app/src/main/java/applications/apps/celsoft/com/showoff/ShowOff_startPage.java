@@ -2,26 +2,18 @@ package applications.apps.celsoft.com.showoff;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,14 +28,11 @@ import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-
 import applications.apps.celsoft.com.showoff.Utilities.AppBackBoneClass;
 import applications.apps.celsoft.com.showoff.Utilities.WakeLocker;
 import applications.apps.celsoft.com.showoff.Utilities.gcmFiles.RegistrationIntentService;
-import applications.apps.celsoft.com.showoff.Views.ApplicationFragments;
 import applications.apps.celsoft.com.showoff.Utilities.table_interfaces.AppUser;
+import applications.apps.celsoft.com.showoff.Views.ApplicationFragments;
 import applications.apps.celsoft.com.showoff.Views.ApplicationSettings;
 import applications.apps.celsoft.com.showoff.Views.Fragment_userProfile;
 import it.neokree.materialtabs.MaterialTab;

@@ -1,8 +1,6 @@
 package applications.apps.celsoft.com.showoff.Utilities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,25 +15,25 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.async.util.FileUtility;
 import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +61,7 @@ import java.util.regex.Pattern;
 import applications.apps.celsoft.com.showoff.R;
 import applications.apps.celsoft.com.showoff.Utilities.table_interfaces.AppUser;
 import applications.apps.celsoft.com.showoff.Utilities.table_interfaces.showoffItems;
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by User on 1/31/2016.
@@ -87,12 +86,73 @@ public class AppBackBoneClass extends ApplicationContants {
 
     public static Integer currentAppPage=0;
     public static  Integer tempCurrentPage=0;
+    private static MaterialDialog mMaterialDialog;
     /*
     currentAppPage => 0: Start page,One of the Start page Fragment is showing
                       1: User profile Page
      */
 
+public static void flagContent(final Context context, final String itemID, final String objectType,String title)
+{
+    View rootView = ((AppCompatActivity)context).getLayoutInflater(). inflate(R.layout.layout_report,null,
+            false);
 
+
+    final EditText edt_report= (EditText) rootView.findViewById(R.id.edtfullreport);
+    final EditText edt_others = (EditText) rootView.findViewById(R.id.edtotherInfo);
+
+
+    mMaterialDialog = new MaterialDialog(context)
+            .setTitle(title)
+            .setView(rootView)
+            .setPositiveButton("SEND", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //saveImageOnserver(_bitmap, fileType, "", edt_brag.getText().toString());
+                    String content = "<flag> <content= \"" + edt_report.getText().toString() + "\" /> <Other_report =\"" + edt_others.getText().toString() + "\" /></flag>";
+
+
+                    if (!TextUtils.isEmpty(edt_report.getText().toString())) {
+                        Ion.with(context).load(AppBackBoneClass.parentUrL + AppBackBoneClass.feedUrl)
+                                .setBodyParameter("reason", "Report Content")
+                                .setBodyParameter("sender", getUserId())
+                                .setBodyParameter("report", content)
+                                .setBodyParameter("objectType", objectType)
+                                .setBodyParameter("itemId", itemID)
+
+                                .asString()
+                                .setCallback(new FutureCallback<String>() {
+                                    @Override
+                                    public void onCompleted(Exception e, String result) {
+                                        if (e == null) {
+
+                                            Log.e("sss", result);
+                                            if (result.contains("Saved") || result .contains("Success")) {
+
+                                                Toast.makeText(context,"Your complaints will be reviewd soon. Thank you", Toast.LENGTH_SHORT).show();
+                                                mMaterialDialog.dismiss();
+                                            }
+                                        }
+                                    }
+                                })
+                        ;
+                    } else {
+                        Toast.makeText(context, "Please enter your complaints", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            })
+            .setNegativeButton("CANCEL", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    mMaterialDialog.dismiss();
+                }
+            });
+
+
+
+    mMaterialDialog.show();
+}
 
     public static  void initApp()
     {

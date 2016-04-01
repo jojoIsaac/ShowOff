@@ -1,9 +1,8 @@
 package applications.apps.celsoft.com.showoff;
 
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +13,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import applications.apps.celsoft.com.showoff.Utilities.AppBackBoneClass;
 import applications.apps.celsoft.com.showoff.Utilities.table_interfaces.AppUser;
@@ -74,6 +77,8 @@ public class PaddyProfile extends AppCompatActivity {
     private IconDrawable drawsFriends;
     private IconDrawable drawsRequests;
     private IconDrawable drawsShows;
+    private String friendStatus="";
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         // TODO Auto-generated method stub
@@ -186,8 +191,8 @@ public class PaddyProfile extends AppCompatActivity {
             layout_shows.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent ints = new Intent(context, Activity_myShowOffs.class);
-                    startActivity(ints);
+                   AppBackBoneClass.flagContent(PaddyProfile.this,userObject.getUserID(),"AppUser","Flag User");
+
                 }
             });
             layout_friends.setOnClickListener(new View.OnClickListener() {
@@ -206,7 +211,7 @@ public class PaddyProfile extends AppCompatActivity {
             layout_images.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    blockUser();
                 }
             });
 
@@ -221,6 +226,8 @@ public class PaddyProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_user_details);
         ButterKnife.bind(this);
+        AppBackBoneClass.myPrefs= getSharedPreferences(AppBackBoneClass.prefernceName, Context.MODE_PRIVATE);
+        AppBackBoneClass.context=this;
         disableControls();
 
         if (savedInstanceState != null) {
@@ -271,7 +278,7 @@ public class PaddyProfile extends AppCompatActivity {
     void blockUser()
     {
 
-        String [] blockType = {"Unfollow Posts","Unfriend","Disable Access"};
+        String [] blockType = {"Unfollow Posts","Disable Access"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setItems(blockType, new DialogInterface.OnClickListener() {
@@ -280,6 +287,7 @@ public class PaddyProfile extends AppCompatActivity {
                 Ion.with(PaddyProfile.this).load(AppBackBoneClass.parentUrL + AppBackBoneClass.feedUrl)
                         .setBodyParameter("reason", "Block User Access")
                         .setBodyParameter("userID", userObject.getUserID())
+                        .setBodyParameter("blocktype", which+"")
                         .setBodyParameter("myID", AppBackBoneClass.getUserId())
 
                         .asString()
@@ -287,16 +295,54 @@ public class PaddyProfile extends AppCompatActivity {
                             @Override
                             public void onCompleted(Exception e, String result) {
                                 if (e == null) {
+
+                                    Log.e("sss",result);
                                     if (!result.equalsIgnoreCase("No Data Found")) {
 
-
+                                        Toast.makeText(PaddyProfile.this, result, Toast.LENGTH_SHORT).show();
 
                                     }
                                 }
                             }
-                        });
+                        })
+                        ;
+
             }
-        });
+        }).show();
+
+    }
+
+
+
+    private void handleFriendStatusChange(String result)
+    {
+
+        try {
+
+            try {
+
+                JSONObject object = new JSONObject(result);
+
+                if (object != null) {
+                    if (object.optString("status").equalsIgnoreCase("Success")) {
+                        friendStatus = object.optString("Fstatus", "-1");
+
+
+                    } else {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+
+
+        }
+        catch (Exception e)
+        {
+
+        }
 
     }
 }

@@ -5,10 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,7 +25,6 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.ProgressCallback;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,8 +33,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import applications.apps.celsoft.com.showoff.Utilities.AppBackBoneClass;
-import applications.apps.celsoft.com.showoff.Views.ApplicationFragments;
 import applications.apps.celsoft.com.showoff.Utilities.models.VideoSource;
+import applications.apps.celsoft.com.showoff.Views.ApplicationFragments;
 import im.ene.lab.toro.widget.ToroVideoView;
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -238,7 +237,7 @@ public class VideoPlayer extends AppCompatActivity implements MediaPlayer.OnComp
 
 
         mMaterialDialog = new MaterialDialog(this)
-                .setTitle("MaterialDialog")
+                .setTitle("Post")
                 .setView(rootView)
                 .setPositiveButton("BRAG NOW!", new View.OnClickListener() {
                     @Override
