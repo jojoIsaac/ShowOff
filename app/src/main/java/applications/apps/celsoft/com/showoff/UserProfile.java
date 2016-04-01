@@ -190,7 +190,10 @@ public class UserProfile extends AppCompatActivity implements SwipeRefreshLayout
         btnAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent ints = new Intent(context, PaddyProfile.class);
+                ints.putExtra("USER_JSON", userJsonData);
+                ints.putExtra("REASON","friends");
+                startActivity(ints);
             }
         });
 
