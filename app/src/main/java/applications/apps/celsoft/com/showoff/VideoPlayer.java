@@ -284,38 +284,44 @@ protected void onPause() {
         String url= AppBackBoneClass.parentUrL+ AppBackBoneClass.videoUploader;
         File upload= new File(videoUrl);
         Integer val= cat_spinner.getSelectedItemPosition();
-        String category= categoryIDs.get(val);
+        String category= (categoryIDs.get(val)==null)?"0": categoryIDs.get(val);
         final String finalCategory = category;
         pdialog= new ProgressDialog(AppBackBoneClass.context);
         pdialog.setMessage("Please wait. Time to showOff...");
         pdialog.setCancelable(false);
         pdialog.show();
-         Ion.with(this)
-                .load(url)
-                .setMultipartParameter("name",file_name)
-                 .setMultipartParameter("userID",AppBackBoneClass.getUserId())
-                 .setMultipartParameter("data_cate",category)
-                .setMultipartParameter("userpost", content)
-                 .setMultipartParameter("data_type","video")
-                 .setMultipartFile("data", upload)
 
-                 .asString()
-                 .setCallback(new FutureCallback<String>() {
-                     @Override
-                     public void onCompleted(Exception e, String result) {
-                         if (e != null) {
-                             Toast.makeText(VideoPlayer.this, "Error Uploading", Toast.LENGTH_SHORT).show();
-                             e.printStackTrace();
-                             return;
-                         } else {
-                             Log.e("ERRORUPLOAD", result);
-                             pdialog.dismiss();
-                             ApplicationFragments.layout_newStory.setVisibility(View.VISIBLE);
-                             Toast.makeText(VideoPlayer.this,  result, Toast.LENGTH_SHORT).show();
-                             finish();
-                         }
-                     }
-                 });
+        if(upload!=null && upload.exists() && upload.isFile()) {
+            Ion.with(this)
+                    .load(url)
+                    .setMultipartParameter("name", file_name)
+                    .setMultipartParameter("userID", AppBackBoneClass.getUserId())
+                    .setMultipartParameter("data_cate", category)
+                    .setMultipartParameter("userpost", content)
+                    .setMultipartParameter("data_type", "video")
+                    .setMultipartFile("data", upload)
+
+                    .asString()
+                    .setCallback(new FutureCallback<String>() {
+                        @Override
+                        public void onCompleted(Exception e, String result) {
+                            if (e != null) {
+                                Toast.makeText(VideoPlayer.this, "Error Uploading", Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                                return;
+                            } else {
+                                Log.e("ERRORUPLOAD", result);
+                                pdialog.dismiss();
+                                ApplicationFragments.layout_newStory.setVisibility(View.VISIBLE);
+                                Toast.makeText(VideoPlayer.this, result, Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        }
+                    });
+        }
+        else {
+            Toast.makeText(VideoPlayer.this, "Error Uploading 309", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -356,7 +362,7 @@ int currentposition=0;
     }
 
 
-    static ArrayList<String> categories,categoryIDs ;
+   ArrayList<String> categories,categoryIDs ;
     private void loadCategories()
     {
         Ion.with(this)

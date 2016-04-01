@@ -333,19 +333,7 @@ public class Activity_myShowOffs extends ShowOffMain implements SwipeRefreshLayo
                 //onScrolledDown();
             }
         }
-        /*
-        public void onScrolledUp() {
-            MainActivity.floaticon.setVisibility(View.VISIBLE);
-            centerActionButton.setVisibility(View.VISIBLE);
-        }
 
-        public void onScrolledDown() {
-            actionMenu.close(true);
-            MainActivity.floaticon.setVisibility(View.GONE);
-            centerActionButton.setVisibility(View.GONE);
-
-        }
-        */
         public void onScrolledToEnd() {
             LoadMoreData();
             //Toast.makeText(this, "Scrolled to the end",Toast.LENGTH_LONG).show();
@@ -381,56 +369,6 @@ public class Activity_myShowOffs extends ShowOffMain implements SwipeRefreshLayo
 
                 });
 
-    }
-
-
-
-
-
-    private void setUpuserViews()
-    {
-        if(userObject!=null)
-        {
-            txtfullname.setText(userObject.getFullName());
-            txtuserlocation.setText(userObject.getLocation());
-
-            //Set up the userImage
-            TextDrawable drawable;
-            draws = new IconDrawable(this, FontAwesomeIcons.fa_user).color(
-                    Color.GRAY).actionBarSize();
-            if(userObject.getFullName()!=null) {
-                drawable = TextDrawable.builder().buildRound(
-                        userObject.getFullName().substring(0, 1),
-                        Color.RED);
-            }
-            else
-            {
-                drawable = TextDrawable.builder().buildRound(
-                        "UN",
-                        Color.RED);
-            }
-            if (!userObject.getImagePath().equalsIgnoreCase("null")) {
-                AppBackBoneClass.loadUserImage( userAvatar,
-                        AppBackBoneClass.parentUrL+AppBackBoneClass.usersimageURL+ "/"
-                                + userObject.getImagePath(),this,
-                        draws);
-                // Toast.makeText(context, "lol",Toast.LENGTH_LONG).show();
-            } else {
-                userAvatar.setImageDrawable(drawable);
-            }
-
-
-
-
-            //Check if users are connected
-            // Integer connected = Integer.parseInt(userObject.getConnected());
-            //changeFriendButton(userObject.getConnected());
-
-
-
-            btnconnect.setVisibility(View.GONE);
-
-        }
     }
 
 

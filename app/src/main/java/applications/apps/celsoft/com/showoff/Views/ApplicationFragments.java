@@ -351,40 +351,40 @@ public abstract class ApplicationFragments extends Fragment implements OnRefresh
 				.setBodyParameter("reason", "Load showoffs")
 				.setBodyParameter("type", currentIssues+"")
 				.setBodyParameter("UID", AppBackBoneClass.getUserId())
-				.setBodyParameter("startPage","1")
+				.setBodyParameter("startPage", "1")
 				.asString()
 
                 .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String result) {
-                        // do stuff with the result or error
-                        if (e == null) {
-                            swipeLayout.setRefreshing(false);
-                            //Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
+					@Override
+					public void onCompleted(Exception e, String result) {
+						// do stuff with the result or error
+						if (e == null) {
+							swipeLayout.setRefreshing(false);
+							//Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
 
-                            issuesList = new ArrayList<showoffItems>();
-                            adapter = new IssuesAdapter(issuesList, currentIssues, AppBackBoneClass.context, (AppCompatActivity) AppBackBoneClass.context);
+							issuesList = new ArrayList<showoffItems>();
+							adapter = new IssuesAdapter(issuesList, currentIssues, AppBackBoneClass.context, (AppCompatActivity) AppBackBoneClass.context);
 
-                            recyclerView.setAdapter(adapter);
-                            processIssuesJson(result);
-                            Log.d("red", result);
-
-
-                            // Toast.makeText(getActivity(),result,Toast.LENGTH_LONG).show();
-                        } else {
-                            try {
-                                Toast.makeText(AppBackBoneClass.context, e.getMessage(), Toast.LENGTH_LONG).show();
-
-                            } catch (Exception es) {
-
-                            }
-
-                            //e.printStackTrace();
-                        }
-                    }
+							recyclerView.setAdapter(adapter);
+							processIssuesJson(result);
+							Log.d("red", result);
 
 
-                });
+							// Toast.makeText(getActivity(),result,Toast.LENGTH_LONG).show();
+						} else {
+							try {
+								Toast.makeText(AppBackBoneClass.context, e.getMessage(), Toast.LENGTH_LONG).show();
+
+							} catch (Exception es) {
+
+							}
+
+							//e.printStackTrace();
+						}
+					}
+
+
+				});
 	
 	}
 
@@ -415,28 +415,38 @@ public abstract class ApplicationFragments extends Fragment implements OnRefresh
 						    //String sender= feedObj.optString("sender");
 						    showoffItems issues= showoffItems.getItem(feedObj.toString());
 
-						    if(issues!=null)
+						    if(issues!=null && issuesList.indexOf(issues)<0 )
 						    {
 
 
 								if(issues.getFiletype().equalsIgnoreCase("Image") && issues.getFiletype().equalsIgnoreCase("Img")&&
-                                       issues.getFiletype().equalsIgnoreCase("Text") )
-
-						    issuesList.add(issues);
+                                       issues.getFiletype().equalsIgnoreCase("Text")  ) {
+									issuesList.add(issues);
+								}
                                 else
                                 {
-                                    if(!TextUtils.isEmpty(issues.getFilename()))
-                                        issuesList.add(issues);
+                                    if(!TextUtils.isEmpty(issues.getFilename()) ) {
+										issuesList.add(issues);
+
+									}
                                 }
 							}
+                            else
+                            {
+                                Log.e("KLOP","NULLLLLLLL");
+                            }
 						}
 						
 					}
 					startAT = issuesList.size() + 1;
 					adapter.notifyDataSetChanged();
 				}
-				
-			}catch(Exception e)
+                else
+                {
+                    Log.e("POL",90000000+"");
+                }
+               // Toast.makeText(getActivity(), adapter.issuesList.size()+"", Toast.LENGTH_SHORT).show();
+            }catch(Exception e)
 			{
 				e.printStackTrace();
 			}

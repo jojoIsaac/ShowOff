@@ -181,7 +181,7 @@ public class AppBackBoneClass extends ApplicationContants {
     {
         String uuid = UUID.randomUUID().toString();
 
-        return basestr+uuid.substring(0,9).replace("-","").trim();
+        return basestr+uuid.substring(0,10).replace("-","").trim();
     }
 
     public static void savetempFile(String filePath,ByteArrayOutputStream data,String fileType)

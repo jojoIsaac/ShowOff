@@ -234,7 +234,7 @@ public class showoffItems  {
           }
           catch (Exception e)
           {
-
+e.printStackTrace();
           }
         return showOffdata;
     }

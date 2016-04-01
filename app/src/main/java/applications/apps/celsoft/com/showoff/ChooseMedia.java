@@ -264,7 +264,7 @@ static ArrayList<String> categories,categoryIDs ;
 
             Ion.with(this)
                     .load(url)
-                    .setMultipartParameter("name", AppBackBoneClass.generateRandomString(userID + fileType) + ".jpg")
+                    .setMultipartParameter("name", AppBackBoneClass.generateRandomString(userID + fileType) + Imagefile.getName())
                     .setMultipartParameter("UN", AppBackBoneClass.getUserDetails().get(1))
                     .setMultipartParameter("userID", AppBackBoneClass.getUserId())
                     .setMultipartParameter("data_cate", finalCategory)
@@ -272,11 +272,13 @@ static ArrayList<String> categories,categoryIDs ;
                     .setMultipartParameter("data_type", fileType)
                     .setMultipartFile("data", Imagefile)
 
+
                     .asString()
                     .setCallback(new FutureCallback<String>() {
                         @Override
                         public void onCompleted(Exception e, String result) {
                             if (e != null) {
+                                pdialog.dismiss();
                                 Toast.makeText(ChooseMedia.this, "Error Uploading", Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                                 return;

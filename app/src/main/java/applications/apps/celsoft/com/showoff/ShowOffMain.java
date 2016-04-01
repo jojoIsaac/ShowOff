@@ -226,42 +226,7 @@ public class ShowOffMain extends AppCompatActivity {
                     }
                     //startActivity(chooseMedia);
                 }
-                /*
-                else if (requestCode ==REQUEST_IMAGE_CHOOSE && resultCode ==   RESULT_OK) {
-                    Intent chooseMedia = new Intent(
-                            this, ChooseMedia.class
-                    );
 
-                    Intent ints= new Intent(this,StartActivity.class);
-                    startActivity(ints);
-
-                    //Toast.makeText(ShowOff_startPage.this, ""+requestCode+" "+" <><><><><><<><>"+ RESULT_OK, Toast.LENGTH_SHORT).show();
-                    Uri selectedImageUri = data.getData();
-                    String[] projection = {MediaStore.MediaColumns.DATA};
-                    CursorLoader cursorLoader = new CursorLoader(  this, selectedImageUri, projection, null, null, null);
-                    Cursor cursor = cursorLoader.loadInBackground();
-                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-                    cursor.moveToFirst();
-                    String selectedImagePath = cursor.getString(column_index);
-                    Bitmap bm;
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = true;
-                    BitmapFactory.decodeFile(selectedImagePath, options);
-                    final int REQUIRED_SIZE = 250;
-                    int scale = 1;
-                    while (options.outWidth / scale / 2 >= REQUIRED_SIZE && options.outHeight / scale / 2 >= REQUIRED_SIZE)
-                        scale *= 2;
-                    options.inSampleSize = scale;
-                    options.inJustDecodeBounds = false;
-                    bm = BitmapFactory.decodeFile(selectedImagePath, options);
-
-                    ByteArrayOutputStream _bs = new ByteArrayOutputStream();
-                    bm.compress(Bitmap.CompressFormat.JPEG, 90, _bs);
-                    chooseMedia.putExtra("byteArrayImage", _bs.toByteArray());
-                    AppBackBoneClass.savetempFile(AppBackBoneClass.files_temp.getAbsolutePath() + "/" + tempFilename + "img.jpg", _bs, "img");
-                    startActivity(chooseMedia);
-                }
-                */
 
             }
             else {

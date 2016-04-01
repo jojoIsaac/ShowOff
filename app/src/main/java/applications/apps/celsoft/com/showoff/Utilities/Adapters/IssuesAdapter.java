@@ -64,28 +64,28 @@ import im.ene.lab.toro.widget.ToroVideoView;
 
 public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
 
-	Context context;
-	public  List<showoffItems> issuesList;
-	Integer issueType;
-	private IconDrawable draws;
-	Activity activity;
+    Context context;
+    public  List<showoffItems> issuesList;
+    Integer issueType;
+    private IconDrawable draws;
+    Activity activity;
 
-	public IssuesAdapter(List<showoffItems> issuesList, Integer issueType,
-						 Context context, Activity activity) {
-		// TODO Auto-generated constructor stub
-		this.issuesList = issuesList;
-		this.context = context;
-		this.issueType = issueType;
-		this.activity = activity;
+    public IssuesAdapter(List<showoffItems> issuesList, Integer issueType,
+                         Context context, Activity activity) {
+        // TODO Auto-generated constructor stub
+        this.issuesList = issuesList;
+        this.context = context;
+        this.issueType = issueType;
+        this.activity = activity;
 
-	}
+    }
 
-	@Override
-	public int getItemCount() {
-		// TODO Auto-generated method stub
+    @Override
+    public int getItemCount() {
+        // TODO Auto-generated method stub
         Log.e("ErrorPosition", issuesList.size() + "");
         return issuesList.size();
-	}
+    }
 
     public void add(showoffItems item) {
         if(!issuesList.contains(item)){
@@ -96,30 +96,30 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
 
 
     issuesViewHolder pvh;
-	@Override
+    @Override
 
     public issuesViewHolder onCreateViewHolder(ViewGroup viewGroup, int arg1) {
-		// TODO Auto-generated method stub
-		View v = LayoutInflater.from(viewGroup.getContext()).inflate(
-				R.layout.issueslistitem_layout, viewGroup, false);
+        // TODO Auto-generated method stub
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(
+                R.layout.issueslistitem_layout, viewGroup, false);
 
-		 pvh = new issuesViewHolder(v,context,issuesList);
-		return pvh;
-	}
-
-
+        pvh = new issuesViewHolder(v,context,issuesList);
+        return pvh;
+    }
 
 
 
 
 
-	@Nullable
-	@Override
-	protected Object getItem(int position) {
+
+
+    @Nullable
+    @Override
+    protected Object getItem(int position) {
         if(pvh!=null)
-         pvh.position=position % issuesList.size();
-		return issuesList.get(position );
-	}
+            pvh.position=position % issuesList.size();
+        return issuesList.get(position );
+    }
 
 
 
@@ -304,19 +304,19 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
                             builder.setItems(menu, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                   // Intent intent = new Intent(context, UserProfileSettingPage.class);
+                                    // Intent intent = new Intent(context, UserProfileSettingPage.class);
                                     switch (which)
                                     {
                                         case 0:
-       if( databitmap !=null)
-       {
-           ByteArrayOutputStream bout = new ByteArrayOutputStream();
+                                            if( databitmap !=null)
+                                            {
+                                                ByteArrayOutputStream bout = new ByteArrayOutputStream();
 
 
-           databitmap.compress(Bitmap.CompressFormat.JPEG,90,bout);
-           AppBackBoneClass.savetempFile(filePath, bout, "IMG");
-           Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
-       }
+                                                databitmap.compress(Bitmap.CompressFormat.JPEG,90,bout);
+                                                AppBackBoneClass.savetempFile(filePath, bout, "IMG");
+                                                Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show();
+                                            }
 
 
 
@@ -367,7 +367,7 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
                         }
                         else
                         {
-                           issue_image.setImageDrawable(null);
+                            issue_image.setImageDrawable(null);
                         }
 
                         issue_image.setVisibility(View.VISIBLE);
@@ -728,7 +728,7 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
                 JSONObject object= showItem.getShowItemJson();
                 if(object!=null)
                 {
-                   // Toast.makeText(context, showItem.getLikes()+" ~~~ "+showItem.getUserLike(), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(context, showItem.getLikes()+" ~~~ "+showItem.getUserLike(), Toast.LENGTH_SHORT).show();
                     AppBackBoneClass.updateJsonObject(object, "likes", showItem.getLikes());
                     AppBackBoneClass.updateJsonObject(object,"user_like",showItem.getUserLike());
                 }
@@ -808,7 +808,7 @@ public class IssuesAdapter extends ToroAdapter<IssuesAdapter.issuesViewHolder> {
                                         AppBackBoneClass.shareShowOffImages(databitmap, filePath);
                                     }
                                     else
-                                         AppBackBoneClass.handlePostShare(issues, context);
+                                        AppBackBoneClass.handlePostShare(issues, context);
                                     break;
                                 case 3:
                                     AlertDialog.Builder builder= new AlertDialog.Builder(context);

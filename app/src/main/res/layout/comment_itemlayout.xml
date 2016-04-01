@@ -10,7 +10,7 @@
         <LinearLayout
             android:id="@+id/layout_header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="#FFF"
             android:orientation="horizontal"
             android:padding="16dp" >
