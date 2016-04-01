@@ -1,6 +1,5 @@
 package applications.apps.celsoft.com.showoff.Views;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,12 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.joanzapata.iconify.IconDrawable;
@@ -68,6 +65,8 @@ public class Fragment_userProfile extends Fragment {
     TextView txt_my_shows;
     @Bind(R.id.txt_my_images)
     TextView txt_my_images;
+    @Bind(R.id.txt_my_block)
+    TextView txt_my_block;
     @Bind(R.id.layout_shows)
     LinearLayout layout_shows;
     @Bind(R.id.layout_images)
@@ -76,6 +75,8 @@ public class Fragment_userProfile extends Fragment {
     LinearLayout layout_friends;
     @Bind(R.id.layout_requests)
     LinearLayout layout_requests;
+    @Bind(R.id.layout_blocklist)
+    LinearLayout layout_blocklist;
     @Bind(R.id.layout_cover_photo)
     RelativeLayout layout_cover_photo;
 
@@ -83,6 +84,7 @@ public class Fragment_userProfile extends Fragment {
     private IconDrawable drawsRequests;
     private IconDrawable drawsShows;
     private  Fragment fragment;
+    private IconDrawable txt_my_blockdrawable;
 
 
     @Nullable
@@ -204,6 +206,8 @@ public class Fragment_userProfile extends Fragment {
                     getResources().getColor(R.color.colorPrimaryDark)).actionBarSize();
             editImagedrawable = new IconDrawable(getActivity(), FontAwesomeIcons.fa_image).color(
                     getResources().getColor(R.color.colorPrimaryDark)).actionBarSize();
+            txt_my_blockdrawable = new IconDrawable(getActivity(), FontAwesomeIcons.fa_ban).color(
+                    getResources().getColor(R.color.colorPrimaryDark)).actionBarSize();
 
 txt_my_images.setCompoundDrawables(editImagedrawable,null,null,null);
 
@@ -212,6 +216,7 @@ txt_my_images.setCompoundDrawables(editImagedrawable,null,null,null);
             txt_friends.setCompoundDrawablesRelativeWithIntrinsicBounds(drawsFriends, null, null, null);
             txt_requests.setCompoundDrawablesRelativeWithIntrinsicBounds(drawsRequests,null,null,null);
             txt_my_shows.setCompoundDrawablesRelativeWithIntrinsicBounds(drawsShows,null,null,null);
+            txt_my_block.setCompoundDrawablesRelativeWithIntrinsicBounds(txt_my_blockdrawable,null,null,null);
 
             layout_shows.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -220,6 +225,8 @@ txt_my_images.setCompoundDrawables(editImagedrawable,null,null,null);
                     startActivity(ints);
                 }
             });
+
+
             layout_friends.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -230,6 +237,18 @@ txt_my_images.setCompoundDrawables(editImagedrawable,null,null,null);
                     startActivity(ints);
                 }
             });
+            layout_blocklist.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent ints= new Intent(context,ShowOffPaddies.class);
+                    ints.putExtra("USER_JSON",AppBackBoneClass.getUserJson());
+                    ints.putExtra("REASON","Blocked_friends");
+
+                    startActivity(ints);
+                }
+            });
+
+
             layout_requests.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

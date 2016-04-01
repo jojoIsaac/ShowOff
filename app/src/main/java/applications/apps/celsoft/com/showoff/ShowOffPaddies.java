@@ -28,11 +28,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import applications.apps.celsoft.com.showoff.Utilities.Adapters.IssuesAdapter;
 import applications.apps.celsoft.com.showoff.Utilities.Adapters.UsersAdapter;
 import applications.apps.celsoft.com.showoff.Utilities.AppBackBoneClass;
 import applications.apps.celsoft.com.showoff.Utilities.table_interfaces.AppUser;
-import applications.apps.celsoft.com.showoff.Utilities.table_interfaces.showoffItems;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import im.ene.lab.toro.Toro;
@@ -103,6 +101,10 @@ public class ShowOffPaddies extends AppCompatActivity implements SwipeRefreshLay
         if(!reason.equalsIgnoreCase("friends"))
         {
            setTitle("Friend Requests");
+        }
+        else if(reason.equalsIgnoreCase("Blocked_friends"))
+        {
+            setTitle("Blocked Users");
         }
         else {
             setTitle("Friends");
@@ -222,7 +224,8 @@ abstract class OnVerticalScrollListener
         Ion.with(this)
                 .load(AppBackBoneClass.parentUrL + AppBackBoneClass.feedUrl
                 )
-                .setBodyParameter("reason", (reason.equalsIgnoreCase("requests"))?"Load friend Request": "Load Friends")
+                //Blocked_friends
+                .setBodyParameter("reason", (reason.equalsIgnoreCase("requests")) ? "Load friend Request" : (reason.equalsIgnoreCase("Blocked_friends"))? "Blocked Friends" :"Load Friends")
                 .setBodyParameter("myID",AppBackBoneClass.getUserId())
 
                 .setBodyParameter("UID", userObject.getUserID())
@@ -274,8 +277,10 @@ abstract class OnVerticalScrollListener
     protected void LoadMoreData() {
         Ion.with(this)
                 .load(AppBackBoneClass.parentUrL + AppBackBoneClass.feedUrl)
-                .setBodyParameter("reason",  (reason.equalsIgnoreCase("requests"))?"Load friend Request": "Load Friends")
-                .setBodyParameter("myID",AppBackBoneClass.getUserId())
+               // .setBodyParameter("reason",  (reason.equalsIgnoreCase("requests"))?"Load friend Request": "Load Friends")
+                .setBodyParameter("reason", (reason.equalsIgnoreCase("requests")) ? "Load friend Request" : (reason.equalsIgnoreCase("Blocked_friends")) ? "Blocked Friends" : "Load Friends")
+
+                .setBodyParameter("myID", AppBackBoneClass.getUserId())
                 .setBodyParameter("UID", userObject.getUserID())
                 .setBodyParameter("index", startAT + "")
                 .asString()

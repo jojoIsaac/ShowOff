@@ -31,7 +31,6 @@ import applications.apps.celsoft.com.showoff.R;
 import applications.apps.celsoft.com.showoff.UserProfile;
 import applications.apps.celsoft.com.showoff.Utilities.AppBackBoneClass;
 import applications.apps.celsoft.com.showoff.Utilities.table_interfaces.AppUser;
-
 import im.ene.lab.toro.ToroAdapter;
 import im.ene.lab.toro.ToroViewHolder;
 
@@ -304,6 +303,8 @@ public class UsersAdapter extends ToroAdapter<UsersAdapter.ContentViewHolder> {
 
 
                 cuserName.setText(appUser.getFullName());
+
+
                 draws = new IconDrawable(context, FontAwesomeIcons.fa_user).color(
                         Color.GRAY).actionBarSize();
                 TextDrawable drawable = TextDrawable.builder().buildRound(
@@ -352,14 +353,14 @@ public class UsersAdapter extends ToroAdapter<UsersAdapter.ContentViewHolder> {
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        toggleFriendshipStatus(appUser,1);
+                                        toggleFriendshipStatus(appUser, 1);
                                     }
                                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                                    }
-                                })
+                            }
+                        })
                                 .show();
                     }
                 });
@@ -367,22 +368,47 @@ public class UsersAdapter extends ToroAdapter<UsersAdapter.ContentViewHolder> {
                     @Override
                     public void onClick(View v) {
                         if (appUser.getConnected().equalsIgnoreCase("1")) {
-                            String menu[] = {"Unfriend", "Unfollow"};
+
+                            //Blocked_friends
+                            String menu1[];
+
+                            if (appUser.getBlocked().equalsIgnoreCase("0")) {
+                                menu1 = new String[2];
+                                menu1[0] = "Unfriend";
+                                menu1[1] = "Unfollow";
+                            } else {
+                                menu1 = new String[3];
+                                menu1[0] = "Unblock";
+                                menu1[1] = "Unfriend";
+                                menu1[2] = "Unfollow";
+                            }
+
                             //String [] menu = {"New Image","New Video","Upload Image","Upload Video"};
                             AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                            dialog.setItems(menu, new DialogInterface.OnClickListener() {
+                            dialog.setItems(menu1, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
                                     switch (which) {
                                         case 0:
-
-                                            toggleFriendshipStatus(appUser,0);
+                                            if (appUser.getBlocked().equalsIgnoreCase("0"))
+                                                toggleFriendshipStatus(appUser, 0);
+                                            else
+                                                toggleFriendshipStatus(appUser, 19);
 
 
                                             break;
                                         case 1:
                                             // Start the camera for video
+                                            if (appUser.getBlocked().equalsIgnoreCase("0"))
+                                                unfollowUser();
+                                            else
+                                                toggleFriendshipStatus(appUser, 0);
+
+                                            break;
+                                        case 2:
+                                            // Start the camera for video
+
                                             unfollowUser();
                                             break;
 
@@ -399,7 +425,7 @@ public class UsersAdapter extends ToroAdapter<UsersAdapter.ContentViewHolder> {
 
                                     .show();
                         } else {
-                            toggleFriendshipStatus(appUser,0);
+                            toggleFriendshipStatus(appUser, 0);
 
 
                         }
@@ -419,6 +445,13 @@ public class UsersAdapter extends ToroAdapter<UsersAdapter.ContentViewHolder> {
             Integer connected = Integer.parseInt(currentStatus);
             //Toast.makeText(UserProfile.this, connected+"", Toast.LENGTH_SHORT).show();
             img_status.setVisibility(View.VISIBLE);
+
+            if(appUser.getBlocked().equalsIgnoreCase("1"))
+                cuserName.setTextColor(context.getResources().getColor(R.color.ColorPrimary));
+            else
+            {
+                cuserName.setTextColor(Color.GRAY);
+            }
 
             if(connected>-2)
             {
@@ -476,10 +509,11 @@ public class UsersAdapter extends ToroAdapter<UsersAdapter.ContentViewHolder> {
             Ion.with(context)
                     .load(AppBackBoneClass.parentUrL + AppBackBoneClass.feedUrl
                     )
-                    .setBodyParameter("reason", (reject<1) ?"Toggle Friendship":"Delete Request")
-                    .setBodyParameter("currentStatus",userObject.getConnected())
-                    .setBodyParameter("friendID",userObject.getUserID())
-                    .setBodyParameter("userID",AppBackBoneClass.getUserId())
+                    .setBodyParameter("reason", (reject < 1) ? "Toggle Friendship" : "Delete Request")
+                    .setBodyParameter("currentStatus",(reject>=19) ?reject+"":userObject.getConnected())
+                    .setBodyParameter("friendID", userObject.getUserID())
+                    .setBodyParameter("userID", AppBackBoneClass.getUserId())
+
                     .asString()
                     .setCallback(new FutureCallback<String>() {
                         @Override
@@ -487,15 +521,13 @@ public class UsersAdapter extends ToroAdapter<UsersAdapter.ContentViewHolder> {
                             // if(e==null)
                             // {
 
-//                            Log.e("POLP",result);
-                            if(e!=null)
-                            {
+               Log.e("POLP",result);
+                            if (e != null) {
                                 e.printStackTrace();
-                            }
-                            else {
+                            } else {
 
-                                if (result!=null&&!result.trim().equalsIgnoreCase("Error") || !result.trim().equalsIgnoreCase("Err")) {
-                                   handleFriendStatusChange(result);
+                                if (result != null && !result.trim().equalsIgnoreCase("Error") || !result.trim().equalsIgnoreCase("Err")) {
+                                    handleFriendStatusChange(result);
                                 }
                             }
                             //}
@@ -518,8 +550,18 @@ String  friendStatus="";
                         if (object.optString("status").equalsIgnoreCase("Success")) {
                             friendStatus = object.optString("Fstatus", "-1");
                             //handleFriendStatusChange(friendStatus);
-                            appUser.setConnected(friendStatus);
-                            changeFriendButton(friendStatus);
+
+
+                            if(  friendStatus.equalsIgnoreCase("19"))
+                            {
+                                appUser.setBlocked("0");
+                                changeFriendButton(appUser.getConnected());
+                            }
+                            else
+                            {
+                                appUser.setConnected(friendStatus);
+                                changeFriendButton(friendStatus);
+                            }
 
                         } else {
                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();

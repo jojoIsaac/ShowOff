@@ -217,6 +217,9 @@
             android:background="#CCC" />
 
 
+
+
+
         <LinearLayout
               android:id="@+id/layout_requests"
               android:layout_width="match_parent"
@@ -290,7 +293,33 @@
              
           </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/layout_blocklist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
+            android:layout_marginTop="10dp"
+            android:padding="6dp"
+            android:background="@drawable/roundlayout"
+            android:orientation="vertical"
+            >
+
+
+
+            <TextView
+                android:id="@+id/txt_my_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+
+                android:padding="1dp"
+                android:drawablePadding="10dp"
+                android:text="My Blocked List"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/text_color"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_images"
@@ -349,6 +378,9 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+
+
+
 
 
 

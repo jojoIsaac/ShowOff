@@ -20,6 +20,18 @@ public class AppUser {
     private String connected;
     private String about_user;
 
+    public AppUser setBlocked(String blocked) {
+        this.blocked = blocked;
+        return this;
+    }
+
+    private String blocked;
+
+    public String getBlocked() {
+        return blocked;
+    }
+
+
     public String getUserCover() {
         return userCover;
     }
@@ -257,6 +269,7 @@ public class AppUser {
                             .setAbout_user(object.optString("about-user"))
                             .setUser_name(object.optString("user_name"))
                             .setUserJson(sender)
+                            .setBlocked(object.optString("blocked"))
                             .setPhone(object.optString("phone"))
                             .setConnected(object.optString("isConnected"))
                             .setMutualFriends(object.optString("mutualFriends"))

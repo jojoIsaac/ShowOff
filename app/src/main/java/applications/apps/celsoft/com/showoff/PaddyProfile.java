@@ -67,6 +67,8 @@ public class PaddyProfile extends AppCompatActivity {
     LinearLayout layout_friends;
     @Bind(R.id.layout_requests)
     LinearLayout layout_requests;
+    @Bind(R.id.layout_blocklist)
+    LinearLayout layout_blocklist;
     @Bind(R.id.layout_cover_photo)
     RelativeLayout layout_cover_photo;
     private String userJsonData;
@@ -134,6 +136,8 @@ public class PaddyProfile extends AppCompatActivity {
 
     private void setUpuserView() throws  Exception
     {
+        layout_blocklist.setVisibility(View.GONE);
+
         if(userObject!=null)
         {
             txtfullname.setText(userObject.getFullName());
