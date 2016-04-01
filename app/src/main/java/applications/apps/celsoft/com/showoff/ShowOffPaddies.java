@@ -163,6 +163,7 @@ public class ShowOffPaddies extends AppCompatActivity implements SwipeRefreshLay
         super.onResume();
         context = this;
         swipeLayout.setRefreshing(true);
+        onRefresh();
         Toro.register(recyclerView);
 
 
@@ -231,8 +232,9 @@ abstract class OnVerticalScrollListener
                     @Override
                     public void onCompleted(Exception e, String result) {
                         // do stuff with the result or error
+                        swipeLayout.setRefreshing(false);
                         if (e == null) {
-                            swipeLayout.setRefreshing(false);
+                            //swipeLayout.setRefreshing(false);
                             //Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
 
                             appUserList = new ArrayList<AppUser>();
