@@ -319,7 +319,7 @@ public class FeedDetailActivity extends AppCompatActivity implements SwipeRefres
 		Log.d("XX", response);
 		if (!TextUtils.isEmpty(response)
 				&& !response.contains("No comment Found")) {
-
+swipeLayout.setRefreshing(false);
 			JSONObject objects;
             emojicon_edit_text.setText("");
 			try {
@@ -356,7 +356,7 @@ public class FeedDetailActivity extends AppCompatActivity implements SwipeRefres
 
     @Override
     public void onRefresh() {
-
+		loadInitialFeeds(issue.getItemID());
     }
 
 
