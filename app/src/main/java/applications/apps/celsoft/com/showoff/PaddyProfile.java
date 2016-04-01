@@ -166,13 +166,13 @@ public class PaddyProfile extends AppCompatActivity {
 //Set the Icons of the TextViews
 
 
-            drawsFriends = new IconDrawable(this, FontAwesomeIcons.fa_users).color(
+            drawsFriends = new IconDrawable(this, FontAwesomeIcons.fa_envelope_o).color(
                     getResources().getColor(R.color.colorPrimaryDark)).actionBarSize();
             drawsRequests = new IconDrawable(this, FontAwesomeIcons.fa_user_plus).color(
                     getResources().getColor(R.color.colorPrimaryDark)).actionBarSize();
-            drawsShows = new IconDrawable(this, FontAwesomeIcons.fa_play_circle).color(
+            drawsShows = new IconDrawable(this, FontAwesomeIcons.fa_flag).color(
                     getResources().getColor(R.color.colorPrimaryDark)).actionBarSize();
-            editImagedrawable = new IconDrawable(this, FontAwesomeIcons.fa_image).color(
+            editImagedrawable = new IconDrawable(this, FontAwesomeIcons.fa_ban).color(
                     getResources().getColor(R.color.colorPrimaryDark)).actionBarSize();
 
             txt_my_images.setCompoundDrawables(editImagedrawable,null,null,null);
@@ -245,8 +245,10 @@ public class PaddyProfile extends AppCompatActivity {
 
     private void setUpUI(View rootView) {
 
-
-        userJsonData = AppBackBoneClass.getUserJson();
+        txt_friends.setText("Private Message");
+        txt_my_images.setText("Block User");
+        txt_my_shows.setText("Report User");
+        //userJsonData = AppBackBoneClass.getUserJson();
         if(!TextUtils.isEmpty(userJsonData)) {
 
             Log.e("UJSON", userJsonData);
@@ -261,6 +263,40 @@ public class PaddyProfile extends AppCompatActivity {
 
         }
 
+
+    }
+
+
+
+    void blockUser()
+    {
+
+        String [] blockType = {"Unfollow Posts","Unfriend","Disable Access"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setItems(blockType, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Ion.with(PaddyProfile.this).load(AppBackBoneClass.parentUrL + AppBackBoneClass.feedUrl)
+                        .setBodyParameter("reason", "Block User Access")
+                        .setBodyParameter("userID", userObject.getUserID())
+                        .setBodyParameter("myID", AppBackBoneClass.getUserId())
+
+                        .asString()
+                        .setCallback(new FutureCallback<String>() {
+                            @Override
+                            public void onCompleted(Exception e, String result) {
+                                if (e == null) {
+                                    if (!result.equalsIgnoreCase("No Data Found")) {
+
+
+
+                                    }
+                                }
+                            }
+                        });
+            }
+        });
 
     }
 }
